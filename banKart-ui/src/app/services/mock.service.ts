@@ -36,6 +36,15 @@ export class MockService extends IAppService {
           this.tokenValue = "Bearer " + token;
           this.options.headers.append("Authorization", this.tokenValue);
         }
+      } else {
+        this.Login().then(response => {
+            this.storageService.store(response.access_token);
+            this.tokenValue = "Bearer " + response.access_token;
+            this.options.headers.append("Authorization", this.tokenValue);
+        })
+        .catch(err => {
+          this.helperService.setShowErrorModal(err);
+        });
       }
   }
 
@@ -44,7 +53,23 @@ export class MockService extends IAppService {
     this.helperService.setLoading(false);
   }
 
+  Login():Promise<any> {
+    let body = new URLSearchParams();
+    body.set("grant_type", "authorization_code");
+    body.set("client_id", 'bankkart');
+    body.set("client_secret", 'secret');
+    body.set("redirect_uri", 'http://localhost:4200/#/loanoffer');
+    body.set("code", '241bbe3c39aefd27c02c1acbf409b1e5e967c05db05e14da6a071396c5fabe0d');
+    return this.http
+      .post(`${environment.loginUrl}`, body.toString(),this.oAuthOptions)
+      .finally(() => this.handleResponse())
+      .toPromise()
+      .then(response => response)
+      .catch(this.handleError);
+  }
+
   Transactions(): Promise<any> {
+    this.checkOauth();
     return this.http
       .get(`${environment.transactionalUrl}`)
       .finally(() => this.handleResponse())
@@ -54,6 +79,7 @@ export class MockService extends IAppService {
   }
 
   Accounts(): Promise<any> {
+    this.checkOauth();
     return this.http
       .get(`${environment.accountsUrl}`)
       .finally(() => this.handleResponse())
