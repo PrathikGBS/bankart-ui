@@ -1,3 +1,4 @@
+import { BaseComponent } from './base.component';
 import { Component } from '@angular/core';
 
 @Component({

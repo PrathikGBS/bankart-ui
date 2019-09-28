@@ -1,9 +1,10 @@
+import { BaseComponent } from './../base.component';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppService } from './services/app.service';
-import { HelperService } from './services/helper.service';
-import { StorageService } from './services/storage.service';
-import { BaseComponent } from './base.component';
+import { AppService } from '../services/app.service';
+import { HelperService } from '../services/helper.service';
+import { StorageService } from '../services/storage.service';
+
 
 @Component({
   selector: 'app-loan-offer',
