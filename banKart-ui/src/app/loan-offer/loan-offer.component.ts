@@ -24,6 +24,7 @@ export class LoanOfferComponent extends BaseComponent {
   }
 
   ngOnInit() {
+    localStorage.setItem('code', "339ffbf8658f4cf09280eea15dffbbb07cff6999ba7b7efa655fe2ccb944c229")
     this.appService
       .Transactions()
       .then(response => {

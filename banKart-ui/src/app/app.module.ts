@@ -11,11 +11,13 @@ import { HttpModule } from "@angular/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoanOfferComponent } from './loan-offer/loan-offer.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoanOfferComponent
+    LoanOfferComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

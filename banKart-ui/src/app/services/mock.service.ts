@@ -54,12 +54,13 @@ export class MockService extends IAppService {
   }
 
   Login():Promise<any> {
+    const code = localStorage.getItem('code')
     let body = new URLSearchParams();
     body.set("grant_type", "authorization_code");
     body.set("client_id", 'bankkart');
     body.set("client_secret", 'secret');
-    body.set("redirect_uri", 'http://localhost:4200/#/loanoffer');
-    body.set("code", '241bbe3c39aefd27c02c1acbf409b1e5e967c05db05e14da6a071396c5fabe0d');
+    body.set("redirect_uri", 'http://localhost:4200/loanoffer');
+    body.set("code", code);
     return this.http
       .post(`${environment.loginUrl}`, body.toString(),this.oAuthOptions)
       .finally(() => this.handleResponse())
