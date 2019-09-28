@@ -24,11 +24,6 @@ export class AppService extends IAppService {
     this.helperService.setLoading(true);
   }
 
-  Login(): Promise<any> {
-    this.SetLoadingSpinner();
-    return this.service.Login();
-  }
-
   Accounts(): Promise<any>{
     this.SetLoadingSpinner();
     return this.service.Accounts();

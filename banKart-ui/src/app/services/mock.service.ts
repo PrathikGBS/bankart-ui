@@ -31,20 +31,13 @@ export class MockService extends IAppService {
 
   checkOauth(): any {
       const token = this.storageService.retrieveToken();
-      if (token !== "") {
+      if (!token && token != null) {
         if (this.tokenValue === undefined || this.tokenValue === "") {
           this.tokenValue = "Bearer " + token;
           this.options.headers.append("Authorization", this.tokenValue);
         }
       } else {
-        this.Login().then(response => {
-            this.storageService.store(response.access_token);
-            this.tokenValue = "Bearer " + response.access_token;
-            this.options.headers.append("Authorization", this.tokenValue);
-        })
-        .catch(err => {
-          this.helperService.setShowErrorModal(err);
-        });
+        this.Login();
       }
   }
 
@@ -53,7 +46,7 @@ export class MockService extends IAppService {
     this.helperService.setLoading(false);
   }
 
-  Login():Promise<any> {
+  Login(): void {
     const code = localStorage.getItem('code')
     let body = new URLSearchParams();
     body.set("grant_type", "authorization_code");
@@ -61,12 +54,13 @@ export class MockService extends IAppService {
     body.set("client_secret", 'secret');
     body.set("redirect_uri", 'http://localhost:4200/loanoffer');
     body.set("code", code);
-    return this.http
+    this.http
       .post(`${environment.loginUrl}`, body.toString(),this.oAuthOptions)
-      .finally(() => this.handleResponse())
-      .toPromise()
-      .then(response => response)
-      .catch(this.handleError);
+      .subscribe(response => {
+        this.storageService.store(response.access_token);
+        this.tokenValue = "Bearer " + response.access_token;
+        this.options.headers.append("Authorization", this.tokenValue);
+      });
   }
 
   Transactions(): Promise<any> {
