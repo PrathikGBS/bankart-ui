@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  mockURL: '',
+  transactionalUrl: 'https://api.bankengine.nz/data/v1/accounts/7ef2962b2b22af6a/transactions?from=2019-01-23&to=2019-08-23',
+  accountsUrl: 'https://api.bankengine.nz/data/v1/accounts/'
 };
 
 /*
