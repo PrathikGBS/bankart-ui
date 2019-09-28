@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from './../base.component';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -15,6 +16,7 @@ export class LoanOfferComponent extends BaseComponent {
   title = 'Loan offer';
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private appService: AppService,
     private helperService: HelperService,
@@ -24,14 +26,17 @@ export class LoanOfferComponent extends BaseComponent {
   }
 
   ngOnInit() {
-    localStorage.setItem('code', "339ffbf8658f4cf09280eea15dffbbb07cff6999ba7b7efa655fe2ccb944c229")
-    this.appService
-      .Transactions()
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        this.helperService.setShowErrorModal(err);
-      });
+    this.route.queryParams.subscribe(params => {
+      let code = params.code;
+      localStorage.setItem('code', code);
+        this.appService
+        .Transactions()
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          this.helperService.setShowErrorModal(err);
+        });
+        })
   }
 }
